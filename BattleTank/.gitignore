@@ -47,6 +47,9 @@
 # Starter Content
 Content/StarterContent/*
 
+# Package Files
+WindowsNoEditor/*
+
 # Precompiled Assets
 SourceArt/**/*.png
 SourceArt/**/*.tga
