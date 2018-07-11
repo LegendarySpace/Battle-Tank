@@ -4,6 +4,12 @@
 
 
 
+ATankPlayerController::ATankPlayerController()
+{
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -27,7 +33,7 @@ void ATankPlayerController::AimTowardsCrosshairs()
 	FVector	HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		// Tell controlled tank to aim  there
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 

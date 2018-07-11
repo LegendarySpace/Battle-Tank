@@ -23,10 +23,13 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrosshairRelativeX = .5f;
 
+	// Range in meters
 	UPROPERTY(EditAnywhere)
 	int32 FiringRange = 10000;
 
 public:
+	ATankPlayerController();
+
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
