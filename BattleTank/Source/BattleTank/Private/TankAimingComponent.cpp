@@ -41,21 +41,24 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	auto LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
 	// Calculate LaunchVelocity
-	if (UGameplayStatics::SuggestProjectileVelocity
-		(
-			this,
-			LaunchVelocity,
-			LaunchLocation,
-			HitLocation, 
-			LaunchSpeed, 
-			false,
-			0,
-			0,
-			ESuggestProjVelocityTraceOption::DoNotTrace
-		))
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
+												(
+													this,
+													LaunchVelocity,
+													LaunchLocation,
+													HitLocation,
+													LaunchSpeed,
+													false,
+													0,
+													0,
+													ESuggestProjVelocityTraceOption::DoNotTrace
+												);
+	if (bHaveAimSolution)
 	{
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
 		UE_LOG(LogTemp, Warning, TEXT("Firing Direction %s"), *AimDirection.ToString());
+
+		// Move Barrel
 	}
 
 }
@@ -63,4 +66,15 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+{
+	// Subtract aim Rotation from current Rotation for Delta Rotation
+	auto CurrentRotation = Barrel->GetForwardVector().Rotation();
+	auto AimRotation = AimDirection.Rotation();
+	auto DeltaRotation = AimRotation - CurrentRotation;
+
+		// Gradually apply rotation to pitch and yaw (Each it's own gimbal)
+	// Possibly return value if Firing Rotation == current Rotation
 }
