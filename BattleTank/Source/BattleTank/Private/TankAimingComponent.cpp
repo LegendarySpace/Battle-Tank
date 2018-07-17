@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 
 // Sets default values for this component's properties
@@ -38,6 +39,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel) { return; }
+	if (!Turret) { return; }
 	FVector LaunchVelocity;
 	auto LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
@@ -69,6 +71,11 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Subtract aim Rotation from current Rotation for Delta Rotation
@@ -77,4 +84,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotation = AimRotation - CurrentRotation;
 
 	Barrel->Elevate(DeltaRotation.Pitch);
+	Turret->RotateTurret(DeltaRotation.Yaw);
 }
