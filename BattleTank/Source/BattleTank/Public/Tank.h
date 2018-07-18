@@ -19,13 +19,12 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 4000;	// TODO find sensible default
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UTankBarrel* Barrel = nullptr;		// Keep local reference to barrel for launching projectile
 
 public:	
 	// Called every frame
@@ -34,7 +33,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void AimAt(FVector);
+	void AimAt(FVector HitLocation);
+
+	// The barrel handles firing		TODO: May remove barrel component and just call Barrel through aimComponent
+	UFUNCTION(BlueprintCallable, Category = Tank)
+	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);

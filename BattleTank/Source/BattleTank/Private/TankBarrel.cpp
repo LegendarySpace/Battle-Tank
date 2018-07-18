@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankBarrel.h"
+#include "Projectile.h"
 
 void UTankBarrel::Elevate(float RelativeSpeed)
 {
@@ -11,4 +12,13 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	auto NewElevation = FMath::Clamp(RawElevation, MinElevation, MaxElevation);
 
 	SetRelativeRotation(FRotator(NewElevation, 0, 0));
+}
+
+void UTankBarrel::Fire()
+{
+	if (!ProjectileBlueprint) { return; }
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
+		GetSocketLocation(FName("Projectile")), GetSocketRotation(FName("Projectile")));
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 }

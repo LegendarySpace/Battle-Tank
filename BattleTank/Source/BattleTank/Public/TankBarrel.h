@@ -6,6 +6,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankBarrel.generated.h"
 
+
+class AProjectile;
+
 /**
  * 
  */
@@ -16,15 +19,22 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 
 public:
 
+	UPROPERTY(EditAnywhere, Category = Tank)
+	float LaunchSpeed = 4000;	// TODO find sensible default
+
 	UPROPERTY(EditAnywhere, Category=Elevation)
 	float MaxDegreesPerSecond = 5;
 
 	UPROPERTY(EditAnywhere, Category = Elevation)
-		float MaxElevation = 35;
+	float MaxElevation = 35;
 
 	UPROPERTY(EditAnywhere, Category = Elevation)
-		float MinElevation = 0;
+	float MinElevation = 0;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	void Elevate(float RelativeSpeed);
 	
+	void Fire();
 };
