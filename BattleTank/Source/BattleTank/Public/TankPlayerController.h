@@ -20,13 +20,14 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	
 private:
 	// Cursor location in screen relation from upper left
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairRelativeY = 0.33333f;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairRelativeX = .5f;
 
+	// TODO: Move to Tank or TankBarrel
 	// Range in meters
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	int32 FiringRange = 10000;
 
 public:

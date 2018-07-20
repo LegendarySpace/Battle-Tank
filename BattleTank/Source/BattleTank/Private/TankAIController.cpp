@@ -23,24 +23,27 @@ void ATankAIController::Tick(float DeltaSeconds)
 		// Move towards Player
 
 		// Aim at player
-		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+		ATank* ControlledTank = Cast<ATank>(GetPawn());
+		ControlledTank->AimAt(GetPlayerTank()->GetActorLocation());
 
 		// Fire when in range
+		// FiringRange = ControlledTank->Barrel->LaunchSpeed;
+		// if (DistanceToTarget < FiringRange)
+		if (true)
+		{
+			ControlledTank->Fire();
+		}
 	}
-}
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
 }
 
 ATank* ATankAIController::GetPlayerTank() const
 {
-	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto Player = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto PlayerTank = Cast<ATank>(Player);
 	if (!PlayerTank)
 	{
-		UE_LOG(LogTemp, Error, TEXT("First Player Controller is NOT a possessing anything"));
+		UE_LOG(LogTemp, Warning, TEXT("First Player Controller is NOT a possessing a tank"));
 		return nullptr;
 	}
-	return Cast<ATank>(PlayerTank);
+	return PlayerTank;
 }

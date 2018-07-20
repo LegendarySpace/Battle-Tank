@@ -17,21 +17,26 @@ class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 
+protected:
+	double LastFireTime = 0;
+
+	double ReloadTime = 3;
+
 public:
 
-	UPROPERTY(EditAnywhere, Category = Tank)
+	UPROPERTY(EditDefaultsOnly, Category = Tank)
 	float LaunchSpeed = 4000;	// TODO find sensible default
 
-	UPROPERTY(EditAnywhere, Category=Elevation)
+	UPROPERTY(EditDefaultsOnly, Category=Elevation)
 	float MaxDegreesPerSecond = 5;
 
-	UPROPERTY(EditAnywhere, Category = Elevation)
+	UPROPERTY(EditDefaultsOnly, Category = Elevation)
 	float MaxElevation = 35;
 
-	UPROPERTY(EditAnywhere, Category = Elevation)
+	UPROPERTY(EditDefaultsOnly, Category = Elevation)
 	float MinElevation = 0;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	void Elevate(float RelativeSpeed);

@@ -16,9 +16,14 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 
 void UTankBarrel::Fire()
 {
-	if (!ProjectileBlueprint) { return; }
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
-		GetSocketLocation(FName("Projectile")), GetSocketRotation(FName("Projectile")));
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime;
+	if (ProjectileBlueprint && isReloaded)
+	{
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
+			GetSocketLocation(FName("Projectile")), GetSocketRotation(FName("Projectile")));
 
-	Projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
+
 }
