@@ -26,5 +26,7 @@ public:
 
 private:
 
+	float AcceptanceRadius = 30.f;
+
 	ATank* GetPlayerTank() const;
 };

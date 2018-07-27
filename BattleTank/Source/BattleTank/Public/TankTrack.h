@@ -18,7 +18,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Tank)
 	void SetThrottle(float Throttle);
 
-	UPROPERTY(EditDefaultOnly, Category = Tank)
+	UPROPERTY(EditDefaultsOnly, Category = Tank)
 	float MaxForce = 400000;
 
 };

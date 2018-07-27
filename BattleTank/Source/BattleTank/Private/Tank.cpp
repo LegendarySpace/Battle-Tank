@@ -2,6 +2,7 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
 
@@ -13,6 +14,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = true;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
@@ -36,26 +38,20 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::InitialiseComponents(UTankTurret * TurretToSet, UTankBarrel * BarrelToSet, UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
+{
+	TankAimingComponent->InitialiseAiming(TurretToSet, BarrelToSet);
+	TankMovementComponent->InitialiseMovement(LeftTrackToSet, RightTrackToSet);
+}
+
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation, Barrel->LaunchSpeed);
+	TankAimingComponent->AimAt(HitLocation);
 }
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	Barrel->Fire();
-}
-
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-	TankAimingComponent->SetTurretReference(TurretToSet);
+	TankAimingComponent->Fire();
 }
 
 

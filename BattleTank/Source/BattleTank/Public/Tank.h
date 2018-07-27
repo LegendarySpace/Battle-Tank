@@ -7,8 +7,10 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
+class UTankMovementComponent;
 class UTankBarrel;
 class UTankTurret;
+class UTankTrack;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -23,8 +25,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
+
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UTankBarrel* Barrel = nullptr;		// Keep local reference to barrel for launching projectile
 
 public:	
 	// Called every frame
@@ -33,16 +37,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Tank | Setup")
+	void InitialiseComponents(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet, UTankTrack* LeftTrack, UTankTrack* RightTrack);
+
 	void AimAt(FVector HitLocation);
 
 	// The barrel handles firing		TODO: May remove barrel component and just call Barrel through aimComponent
 	UFUNCTION(BlueprintCallable, Category = Tank)
 	void Fire();
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretToSet);
 	
 };
