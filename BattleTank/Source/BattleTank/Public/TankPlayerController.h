@@ -7,6 +7,7 @@
 #include "TankPlayerController.generated.h"
 
 
+class UTankAimingComponent;
 class ATank;
 
 /**
@@ -17,7 +18,13 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Tank | Setup")
+	ATank* GetControlledTank() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Tank | Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
+
 private:
 	// Cursor location in screen relation from upper left
 	UPROPERTY(EditDefaultsOnly)
@@ -25,10 +32,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float CrosshairRelativeX = .5f;
 
-	// TODO: Move to Tank or TankBarrel
-	// Range in meters
-	UPROPERTY(EditDefaultsOnly)
-	int32 FiringRange = 10000;
 
 public:
 	ATankPlayerController();
@@ -38,7 +41,6 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 private:
-	ATank* GetControlledTank() const;
 
 	// Begin barrel movement to target aimed at location
 	void AimTowardsCrosshairs();

@@ -2,8 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "Tank.h"
-
-
+#include "TankAimingComponent.h"
 
 ATankPlayerController::ATankPlayerController()
 {
@@ -14,6 +13,12 @@ ATankPlayerController::ATankPlayerController()
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	auto AimingComp = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComp)
+	{
+		FoundAimingComponent(AimingComp);
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaSeconds)
@@ -34,7 +39,7 @@ void ATankPlayerController::AimTowardsCrosshairs()
 	FVector	HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
 	}
 }
 
@@ -77,7 +82,7 @@ bool ATankPlayerController::GetLookVectorHitDirection(FVector LookDirection, FVe
 	FVector CameraLocation = PlayerCameraManager->GetCameraLocation();
 
 	// Line trace along the Look direction and check for collision
-	FVector TraceEnd = (LookDirection * (100 * FiringRange)) + CameraLocation;		// Convert firing range into meters then go out along look direction
+	FVector TraceEnd = (LookDirection * (100 * GetControlledTank()->FiringRange)) + CameraLocation;		// Convert firing range into meters then go out along look direction
 	FHitResult HitResult;
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, TraceEnd, ECollisionChannel::ECC_Visibility))
