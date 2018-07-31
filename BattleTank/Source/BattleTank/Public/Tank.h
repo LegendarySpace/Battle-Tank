@@ -6,9 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
-class UTankTurret;
-class UTankTrack;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -18,11 +15,6 @@ class BATTLETANK_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-
-	// TODO: Limit AI by FiringRange
-	// Range in meters
-	UPROPERTY(EditDefaultsOnly)
-	int32 FiringRange = 10000;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,13 +27,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Tank | Setup")
-	virtual void InitialiseComponents(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet, UTankTrack* LeftTrack, UTankTrack* RightTrack);
-
-	virtual void AimAt(FVector HitLocation);
-
-	// The barrel handles firing		TODO: May remove barrel component and just call Barrel through aimComponent
-	UFUNCTION(BlueprintCallable, Category = "Tank")
-	virtual void Fire();
 	
 };

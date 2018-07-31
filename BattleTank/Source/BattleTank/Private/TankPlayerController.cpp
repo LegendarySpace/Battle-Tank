@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
 
 ATankPlayerController::ATankPlayerController()
@@ -14,7 +13,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComp = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AimingComp = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (AimingComp)
 	{
 		FoundAimingComponent(AimingComp);
@@ -27,19 +26,14 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 	AimTowardsCrosshairs();
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimTowardsCrosshairs()
 {
-	if (!GetControlledTank()) { return; }
+	if (!GetPawn()) { return; }
 
 	FVector	HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledTank()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
+		GetPawn()->FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
 	}
 }
 
@@ -70,7 +64,6 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	FVector CameraLocation;
 	if (!DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Error Deprojecting crosshairs"));
 		return false;
 	}
 	return true;
@@ -82,7 +75,8 @@ bool ATankPlayerController::GetLookVectorHitDirection(FVector LookDirection, FVe
 	FVector CameraLocation = PlayerCameraManager->GetCameraLocation();
 
 	// Line trace along the Look direction and check for collision
-	FVector TraceEnd = (LookDirection * (100 * GetControlledTank()->FiringRange)) + CameraLocation;		// Convert firing range into meters then go out along look direction
+	// Convert firing range into meters then go out along look direction
+	FVector TraceEnd = (LookDirection * (100 * GetPawn()->FindComponentByClass<UTankAimingComponent>()->FiringRange)) + CameraLocation;
 	FHitResult HitResult;
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, TraceEnd, ECollisionChannel::ECC_Visibility))

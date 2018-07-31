@@ -46,9 +46,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tank | Initialise")
 	void InitialiseAiming(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
+	// TODO: Limit AI by FiringRange
+	// Range in meters
+	UPROPERTY(EditDefaultsOnly)
+	int32 FiringRange = 10000;
+
 	void AimAt(FVector HitLocation);
 	
 	void MoveBarrelTowards(FVector AimDirection);
 
+	UFUNCTION(BlueprintCallable, Category = "Tank")
 	void Fire();
+
 };

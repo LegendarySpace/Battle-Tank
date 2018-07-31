@@ -1,10 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
-#include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 
 
 // Sets default values
@@ -33,23 +29,7 @@ void ATank::Tick(float DeltaTime)
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
-void ATank::InitialiseComponents(UTankTurret * TurretToSet, UTankBarrel * BarrelToSet, UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
-{
-	FindComponentByClass<UTankAimingComponent>()->InitialiseAiming(TurretToSet, BarrelToSet);
-	FindComponentByClass<UTankMovementComponent>()->InitialiseMovement(LeftTrackToSet, RightTrackToSet);
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	FindComponentByClass<UTankAimingComponent>()->AimAt(HitLocation);
-}
-
-void ATank::Fire()
-{
-	FindComponentByClass<UTankAimingComponent>()->Fire();
-}
 
 
