@@ -24,16 +24,16 @@ void ATankAIController::Tick(float DeltaSeconds)
 	{
 		// Move towards Player
 		MoveToActor(PlayerTank, AcceptanceRadius);
+		auto AimComp = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 		// Aim at player
-		GetPawn()->FindComponentByClass<UTankAimingComponent>()->AimAt(PlayerTank->GetActorLocation());
+		AimComp->AimAt(PlayerTank->GetActorLocation());
 
 		// Fire when in range
-		// FiringRange = ControlledTank->Barrel->LaunchSpeed;
-		// if (DistanceToTarget < FiringRange)
-		if (false)
+		// if (DistanceToTarget < AimComp->FiringRange)
+		if (AimComp->GetFiringState() == EFiringState::Locked)
 		{
-			GetPawn()->FindComponentByClass<UTankAimingComponent>()->Fire();
+			AimComp->Fire();
 		}
 	}
 }

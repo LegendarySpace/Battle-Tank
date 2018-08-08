@@ -28,15 +28,18 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	UPROPERTY(BlueprintReadOnly, Category = "Tank")
-	EFiringState FiringState = EFiringState::Locked;
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = "Tank")
+	EFiringState FiringState = EFiringState::Reloading;
+
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	bool isBarrelMoving = false;
 
 
 public:	
@@ -53,9 +56,11 @@ public:
 
 	void AimAt(FVector HitLocation);
 	
-	void MoveBarrelTowards(FVector AimDirection);
+	bool MoveBarrelTowards(FVector AimDirection);
 
 	UFUNCTION(BlueprintCallable, Category = "Tank")
 	void Fire();
+
+	EFiringState GetFiringState() const { return FiringState; }
 
 };

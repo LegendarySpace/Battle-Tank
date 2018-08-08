@@ -42,4 +42,6 @@ public:
 	void Elevate(float RelativeSpeed);
 	
 	void Fire();
+
+	bool IsReloading();
 };

@@ -5,8 +5,8 @@
 void UTankTurret::RotateTurret(float RelativeSpeed)
 {
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
-	float YawChange = RelativeSpeed * MaxRotationDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
-	auto CookedYaw = FMath::Clamp<float>(YawChange, -180, 180);
+	float DeltaYaw = RelativeSpeed * MaxRotationDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 
-	AddRelativeRotation(FRotator(0, CookedYaw, 0));
+
+	AddRelativeRotation(FRotator(0, DeltaYaw, 0));
 }
