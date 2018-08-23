@@ -32,7 +32,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (Barrel->IsReloading())
+	if (Ammo <= 0)
+	{
+		FiringState = EFiringState::Empty;
+	}
+	else if (Barrel->IsReloading())
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -105,6 +109,8 @@ bool UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
+	if (Ammo <= 0) { return; }
+	Ammo--;
 	Barrel->Fire();
 }
 

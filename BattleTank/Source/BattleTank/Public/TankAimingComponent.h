@@ -12,7 +12,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	Empty
 };
 
 // Forward Declariations
@@ -30,7 +31,7 @@ public:
 
 
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "Tank")
+	UPROPERTY(BlueprintReadOnly, Category = "Aiming System")
 	EFiringState FiringState = EFiringState::Reloading;
 
 	// Called when the game starts
@@ -46,7 +47,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Tank | Initialise")
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void InitialiseAiming(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	// TODO: Limit AI by FiringRange
@@ -54,13 +55,19 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	int32 FiringRange = 10000;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Aiming System")
+	int32 Ammo = 10;
+
 	void AimAt(FVector HitLocation);
 	
 	bool MoveBarrelTowards(FVector AimDirection);
 
-	UFUNCTION(BlueprintCallable, Category = "Tank")
+	UFUNCTION(BlueprintCallable, Category = "Aiming System")
 	void Fire();
 
 	EFiringState GetFiringState() const { return FiringState; }
+
+	UFUNCTION(BlueprintCallable, Category = "Aiming System")
+	int32 GetAmmo() const { return Ammo; }
 
 };
