@@ -52,11 +52,11 @@ public:
 
 	// TODO: Limit AI by FiringRange
 	// Range in meters
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Aiming System")
 	int32 FiringRange = 10000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Aiming System")
-	int32 Ammo = 10;
+	int32 AmmoRemaining = 10;
 
 	void AimAt(FVector HitLocation);
 	
@@ -68,6 +68,6 @@ public:
 	EFiringState GetFiringState() const { return FiringState; }
 
 	UFUNCTION(BlueprintCallable, Category = "Aiming System")
-	int32 GetAmmo() const { return Ammo; }
+	int32 GetAmmo() const { return AmmoRemaining; }
 
 };
