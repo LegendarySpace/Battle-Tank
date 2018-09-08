@@ -26,7 +26,7 @@ protected:
 public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float LaunchSpeed = 4000;	// TODO find sensible default
+	float LaunchSpeed = 400000;	// TODO find sensible default
 
 	UPROPERTY(EditDefaultsOnly, Category= "Elevation")
 	float MaxDegreesPerSecond = 5;

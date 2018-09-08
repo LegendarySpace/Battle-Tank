@@ -4,6 +4,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 
 
 // Sets default values
@@ -26,7 +27,12 @@ AProjectile::AProjectile()
 	ImpactBlast->bAutoActivate = false;
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Movement");
+	ImpactBlast->AttachToComponent(CollisionMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	ProjectileMovement->bAutoActivate = false;
+
+	ExplosiveForce = CreateDefaultSubobject<URadialForceComponent>("Explosive Force");
+	ExplosiveForce->AttachToComponent(CollisionMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	ExplosiveForce->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
@@ -46,13 +52,15 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float LaunchSpeed)
 {
-	ProjectileMovement->Activate();
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * LaunchSpeed);
+	ProjectileMovement->Activate();
 }
 
 void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosiveForce->FireImpulse();
+	Destroy();
 }
 

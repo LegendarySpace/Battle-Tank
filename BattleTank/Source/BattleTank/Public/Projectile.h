@@ -10,7 +10,7 @@
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
-
+class URadialForceComponent;
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
 {
@@ -19,6 +19,9 @@ class BATTLETANK_API AProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	int32 multiplier = 0;
 
 
 protected:
@@ -35,6 +38,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	URadialForceComponent* ExplosiveForce = nullptr;
 
 public:	
 	// Called every frame
