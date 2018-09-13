@@ -61,6 +61,16 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosiveForce->FireImpulse();
+
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	FTimerHandle timeH;
+	GetWorld()->GetTimerManager().SetTimer(timeH, this, &AProjectile::SelfDestruct, 0);
+}
+
+void AProjectile::SelfDestruct()
+{
 	Destroy();
 }
 
