@@ -23,6 +23,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	int32 multiplier = 0;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 10.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float Damage = 10.f;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,20 +36,18 @@ protected:
 
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* LaunchBlast = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* ImpactBlast = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	URadialForceComponent* ExplosiveForce = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float DestroyDelay = 10.f;
 
 public:	
 	// Called every frame
