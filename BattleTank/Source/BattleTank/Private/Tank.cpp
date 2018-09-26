@@ -20,23 +20,28 @@ float ATank::GetHealthPercentage() const
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	TimeLastHit = FPlatformTime::Seconds();
 }
 
 // Called every frame
 void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (CurrentHealth < StartingHealth) {
+		if (FPlatformTime::Seconds() > (TimeLastHit + HEALTH_REGEN_TIME)) Regen(DeltaTime);
+	}
 }
 
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	auto AppliedDamage = FMath::Clamp(DamagePoints, 0, CurrentHealth);
-	UE_LOG(LogTemp, Warning, TEXT("Predamage health: %i - Damage applied: %i"), CurrentHealth, AppliedDamage);
 
 	CurrentHealth -= AppliedDamage;
-	UE_LOG(LogTemp, Warning, TEXT("Postdamage health: %i"), CurrentHealth);
+
+	TimeLastHit = FPlatformTime::Seconds();
+
+	if (CurrentHealth <= 0) OnDeath.Broadcast();
 
 	return AppliedDamage;
 }
@@ -45,6 +50,16 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ATank::Regen(float DeltaTime)
+{
+	// TODO Use world delta instead of passing in
+	RegenCarryOver = (5 * DeltaTime);
+	if (RegenCarryOver > 1) {
+		RegenCarryOver--;
+		CurrentHealth++;
+	}
 }
 
 

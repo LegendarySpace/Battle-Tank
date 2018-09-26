@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -16,10 +17,20 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	FTankDelegate OnDeath;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	bool CanRegenerate = false;
+
+	// Damage free seconds before health regen
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float HEALTH_REGEN_TIME = 3.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	int32 StartingHealth = 100;
 
-	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UPROPERTY(VisibleAnywhere, Category = "Health")
 	int32 CurrentHealth = StartingHealth;
 
 	// Returns percent health between 0 and 1
@@ -29,6 +40,11 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	float TimeLastHit = 0;
+
+private:
+	float RegenCarryOver = 0;
 
 public:	
 	// Called every frame
@@ -40,5 +56,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+	// Regen Life/Shields
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	virtual void Regen(float DeltaTime);
+
+	/**
+	*	TODO
+	*	Lock Tank movement to 2 dimensions
+	*	(Prevent Force being applied in unintended directions)
+	**/
 };

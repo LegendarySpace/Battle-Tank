@@ -22,6 +22,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Tank | Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
 
+
 private:
 	// Cursor location in screen relation from upper left
 	UPROPERTY(EditDefaultsOnly)
@@ -35,7 +36,12 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 
 private:
 

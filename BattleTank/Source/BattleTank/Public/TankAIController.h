@@ -23,7 +23,12 @@ public:
 
 	void BeginPlay() override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	void Tick(float DeltaSeconds) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
