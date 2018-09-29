@@ -42,7 +42,7 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
 void ATankPlayerController::OnTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Player Tank Died"));
+	StartSpectatingOnly();
 }
 
 void ATankPlayerController::AimTowardsCrosshairs()
@@ -95,7 +95,7 @@ bool ATankPlayerController::GetLookVectorHitDirection(FVector LookDirection, FVe
 	FVector TraceEnd = (LookDirection * (100 * GetPawn()->FindComponentByClass<UTankAimingComponent>()->FiringRange)) + CameraLocation;
 	FHitResult HitResult;
 
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, TraceEnd, ECollisionChannel::ECC_Visibility))
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, TraceEnd, ECollisionChannel::ECC_Camera))
 	{
 		HitLocation = HitResult.Location;
 

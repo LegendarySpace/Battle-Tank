@@ -47,8 +47,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void InitialiseAiming(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	// TODO: Limit AI by FiringRange
 	// Range in meters
@@ -62,10 +60,15 @@ public:
 	
 	bool MoveBarrelTowards(FVector AimDirection);
 
-	UFUNCTION(BlueprintCallable, Category = "Aiming System")
-	void Fire();
+
 
 	EFiringState GetFiringState() const { return FiringState; }
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void InitialiseAiming(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Aiming System")
+	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Aiming System")
 	int32 GetAmmo() const { return AmmoRemaining; }

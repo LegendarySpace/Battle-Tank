@@ -66,6 +66,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	FVector LaunchVelocity;
 	auto LaunchLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
+	/**			TODO: Limit firing Range
+	*	1.	Use Py-Theorum to find distance from launch to hit
+	*	2.	If > Range, hit = LookDirection * Range
+	**/
+
 	// Calculate LaunchVelocity
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
 												(

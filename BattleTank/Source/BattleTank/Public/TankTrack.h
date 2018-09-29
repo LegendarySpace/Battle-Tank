@@ -6,6 +6,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+class USpawnPoint;
+
 /**
  * 
  */
@@ -23,6 +25,15 @@ public:
 	float MaxForce = 1600000;
 
 	float CurrentThrottle = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Suspension")
+	USpawnPoint* FrontShock;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Suspension")
+	USpawnPoint* MidShock;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Suspension")
+	USpawnPoint* BackShock;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

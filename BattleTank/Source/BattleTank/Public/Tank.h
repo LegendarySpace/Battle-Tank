@@ -23,6 +23,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	bool CanRegenerate = false;
 
+	// Health Per Second
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	int32 RegenAmount = 5;
+
 	// Damage free seconds before health regen
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float HEALTH_REGEN_TIME = 3.f;
@@ -31,7 +35,7 @@ public:
 	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = "Health")
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth;
 
 	// Returns percent health between 0 and 1
 	UFUNCTION(BlueprintPure, Category = "Health")

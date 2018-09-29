@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankTrack.h"
+#include "SpawnPoint.h"
 
 
 UTankTrack::UTankTrack()
@@ -9,6 +10,17 @@ UTankTrack::UTankTrack()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
+	FrontShock = CreateDefaultSubobject<USpawnPoint>(FName("Front Shock"));
+	FrontShock->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	FrontShock->SetRelativeLocation(FVector(207, 0, 78));
+
+	MidShock = CreateDefaultSubobject<USpawnPoint>(FName("Mid Shock"));
+	MidShock->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	FrontShock->SetRelativeLocation(FVector(0, 0, 78));
+
+	BackShock = CreateDefaultSubobject<USpawnPoint>(FName("Back Shock"));
+	BackShock->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
+	FrontShock->SetRelativeLocation(FVector(-213, 0, 78));
 }
 
 void UTankTrack::BeginPlay()

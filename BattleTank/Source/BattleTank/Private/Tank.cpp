@@ -20,6 +20,7 @@ float ATank::GetHealthPercentage() const
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = StartingHealth;
 	TimeLastHit = FPlatformTime::Seconds();
 }
 
@@ -27,7 +28,7 @@ void ATank::BeginPlay()
 void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (CurrentHealth < StartingHealth) {
+	if (CanRegenerate && CurrentHealth < StartingHealth) {
 		if (FPlatformTime::Seconds() > (TimeLastHit + HEALTH_REGEN_TIME)) Regen(DeltaTime);
 	}
 }
@@ -55,11 +56,12 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::Regen(float DeltaTime)
 {
 	// TODO Use world delta instead of passing in
-	RegenCarryOver = (5 * DeltaTime);
+	RegenCarryOver += (RegenAmount * DeltaTime);
 	if (RegenCarryOver > 1) {
 		RegenCarryOver--;
 		CurrentHealth++;
 	}
+
 }
 
 
